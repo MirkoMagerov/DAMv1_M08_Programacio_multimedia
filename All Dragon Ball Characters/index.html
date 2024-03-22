@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Dragon Ball Characters</title>
+    <style link="style.css"></style>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>All Dragon Ball Characters</h1>
+        <ul>
+            <li v-for="character in filteredCharacters" :key="character.id">
+                <img :src="character.image" :alt="character.name" width="100" height="100">
+                <h2>{{ character.name }}</h2>
+                <p>{{ character.ki }}</p>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    characters: []
+                }
+            },
+            methods: {
+                searchCharacters() {
+                    fetch('https://dragonball-api.com/api/characters?limit=60')
+                        .then(response => response.json())
+                        .then(data => {
+                            this.characters = data.items;
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                }
+            },
+            computed: {
+                filteredCharacters() {
+                    return this.characters.filter(character => character.name.toLowerCase().includes('broly'));
+                }
+            }
+        })
+        
+        let appMounted = app.mount('#app');
+        appMounted.searchCharacters();
+    </script>
+</body>
+</html>

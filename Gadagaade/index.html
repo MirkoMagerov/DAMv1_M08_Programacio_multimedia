@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="app">
+        <h2>Methods</h2>
+        <h3>deleteDuplicates</h3>
+        <p>{{ deleteDuplicates([1, 2, 3, 4, 5, 1, 2, 3, 4, 5]) }}</p>
+        <h3>hasCommonValues</h3>
+        <p>{{ hasCommonValues([1, 2, 3, 4, 5], [6, 7, 8, 9, 10]) }}</p>
+        <p>{{ hasCommonValues([1, 2, 3, 4, 5], [6, 7, 8, 9, 10, 1]) }}</p>
+        <h3>convertArraysToMap</h3>
+        <p>{{ convertArraysToMap([[8, 9, 4], [9, 10], [6, 8, 10], [4], [8, 4, 7], [], [7, 5, 9, 10],[10]], ["m02", "m03", "m04", "m05", "m06", "m07", "m08", "FOL"]) }}</p>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    
+                }
+            },
+            methods: {
+                deleteDuplicates(arr) {
+                    let set = new Set(arr);
+                    return Array.from(set);
+                },
+                hasCommonValues(arr1, arr2) {
+                    let set1 = new Set(arr1);
+                    let set2 = new Set(arr2);
+
+                    for (let item of set1) {
+                        if (set2.has(item)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                },
+                convertArraysToMap(arr1, arr2) {
+                    let map = new Map();
+                    for (let i = 0; i < arr1.length; i++) {
+                        map.set(arr1[i], arr2[i]);
+                    }
+                    return map;
+                }
+            }
+        })
+
+        app.mount('#app')
+    </script>
+</body>
+</html>
