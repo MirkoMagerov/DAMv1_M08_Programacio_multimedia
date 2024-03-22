@@ -3,23 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World - Vue</title>
+    <title>Dragon Ball Seacher</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="app">
         <p class="search-character">Get Dragon Ball Character</p>
-
+        <p v-if="searchResult === false" class="no-result">No se encontraron resultados</p>
+        <p v-if="searchResult === null" class="waiting-search">Realiza una búsqueda</p>
+        
         <form v-on:submit.prevent="buscarDragonBallCharacter">
             <input class="input-name-search" type="text" v-model="search">
-            <input class="input--search" value="Buscar" type="submit"></input>
+            <input class="input-search-button" value="Buscar" type="submit"></input>
         </form>
 
-        <article class="character-article">
+        <article v-if="searchResult === true" class="character-article">
             <p class="char-info" v-if="dbChar.name">Character: {{ dbChar.name }}</p>
             <p class="char-info" v-if="dbChar.ki">Ki: {{ dbChar.ki }}</p>
-            <p class="char-info" v-if="dbChar.race">Raza: {{ dbChar.race }}</p>
+            <p class="char-info" v-if="dbChar.gender">Gender: {{ dbChar.gender }}</p>
+            <p class="char-info" v-if="dbChar.affiliation">Affiliation: {{ dbChar.affiliation }}</p>
+            <p class="char-info" v-if="dbChar.race">Race: {{ dbChar.race }}</p>
             <img v-if="dbChar.image" v-bind:src="dbChar.image" alt="Character Image">
         </article>
     </div>
@@ -28,7 +32,8 @@
             data() {
                 return {
                     search: "",
-                    dbChar: ""
+                    dbChar: "",
+                    searchResult: null
                 }
             },
             methods: {
@@ -37,7 +42,12 @@
                         .then(response => response.json())
                         .then(data => {
                             this.dbChar = data[0];
+                            this.searchResult = this.dbChar !== undefined && this.dbChar !== null;
                         })
+
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
                 }
             }
         })

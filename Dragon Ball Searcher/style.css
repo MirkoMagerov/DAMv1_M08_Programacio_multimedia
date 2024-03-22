@@ -33,6 +33,10 @@ body {
     margin-top: 15px;
 }
 
+form {
+    margin-top: 20px;
+}
+
 .input-name-search {
     padding: 10px;
     border-radius: 5px;
@@ -40,9 +44,16 @@ body {
     margin-right: 10px;
 }
 
-.input-submit-search {
+.input-search-button {
     padding: 10px;
     border-radius: 5px;
+    font-size: 1.2em;
+}
+
+.input-search-button:hover {
+    cursor: pointer;
+    background-color: rgb(85, 78, 78);
+    color: rgb(224, 214, 214);
 }
 
 img {
@@ -54,4 +65,17 @@ img {
     font-size: 1.4em;
     font-weight: bold;
     margin-bottom: 5px;
+}
+
+.no-result {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: red;
+}
+
+.waiting-search {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: green;
+    font-style: italic;
 }
