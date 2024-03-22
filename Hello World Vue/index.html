@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World - Vue</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <p class="search-character">Get Dragon Ball Character</p>
+
+        <form v-on:submit.prevent="buscarDragonBallCharacter">
+            <input class="input-name-search" type="text" v-model="search">
+            <input class="input--search" value="Buscar" type="submit"></input>
+        </form>
+
+        <article class="character-article">
+            <p class="char-info" v-if="dbChar.name">Character: {{ dbChar.name }}</p>
+            <p class="char-info" v-if="dbChar.ki">Ki: {{ dbChar.ki }}</p>
+            <p class="char-info" v-if="dbChar.race">Raza: {{ dbChar.race }}</p>
+            <img v-if="dbChar.image" v-bind:src="dbChar.image" alt="Character Image">
+        </article>
+    </div>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    search: "",
+                    dbChar: ""
+                }
+            },
+            methods: {
+                buscarDragonBallCharacter() {
+                    fetch(`https://dragonball-api.com/api/characters?name=${this.search}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            this.dbChar = data[0];
+                        })
+                }
+            }
+        })
+        app.mount('#app');
+    </script>
+</body>
+</html>
