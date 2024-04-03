@@ -79,3 +79,25 @@ img {
     color: green;
     font-style: italic;
 }
+
+.favorite {
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 7px;
+    font-size: 1.1em;
+    cursor:pointer;
+}
+
+.favorite:last-of-type {
+    color:green;
+}
+
+.favorite:first-of-type {
+    color:red;
+}
+
+.favorites-title {
+    font-size: 2em;
+    font-weight: bold;
+    margin-top: 15px;
+}

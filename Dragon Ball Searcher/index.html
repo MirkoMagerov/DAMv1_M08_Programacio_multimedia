@@ -17,6 +17,8 @@
             <input class="input-name-search" type="text" v-model="search">
             <input class="input-search-button" value="Buscar" type="submit"></input>
         </form>
+        <button @click="deleteFavs" class="favorite">Delete all favs</button>
+        <button @click="showFavorites" class="favorite">Show favs</button>
 
         <article v-if="searchResult === true" class="character-article">
             <p class="char-info" v-if="dbChar.name">Character: {{ dbChar.name }}</p>
@@ -26,6 +28,15 @@
             <p class="char-info" v-if="dbChar.race">Race: {{ dbChar.race }}</p>
             <img v-if="dbChar.image" v-bind:src="dbChar.image" alt="Character Image">
         </article>
+        <button @click="addToFavorite" class="favorite" v-if="dbChar.name">Add to favorites</button>
+
+        <div class="favorites-div" v-if="favorites.length > 0">
+            <p class="favorites-title">Favorites</p>
+            <div v-for="favorite in favorites" class="favorite-div">
+                <p class="favorite-name">{{ favorite.name }}</p>
+                <img v-if="favorite.image" v-bind:src="favorite.image" alt="Character Image">
+            </div>
+        </div>
     </div>
     <script>
         const app = Vue.createApp({
@@ -33,7 +44,8 @@
                 return {
                     search: "",
                     dbChar: "",
-                    searchResult: null
+                    searchResult: null,
+                    favorites: []
                 }
             },
             methods: {
@@ -48,6 +60,27 @@
                         .catch(error => {
                             console.error('Error:', error);
                         });
+                },
+                addToFavorite() {
+                    localStorage.setItem(this.dbChar.name, JSON.stringify(this.dbChar));
+                    console.log('Agregado a favoritos');
+                },
+                deleteFavs() {
+                    localStorage.clear();
+                    console.log('Favoritos eliminados');
+                },
+                mounted() {
+                    this.loadFavoritesFromLocalStorage();
+                },
+                showFavorites() {
+                    const favorites = [];
+
+                    for (let i = 0; i < localStorage.length; i++) {
+                        const key = localStorage.key(i);
+                        const favorite = JSON.parse(localStorage.getItem(key));
+                        favorites.push(favorite);
+                    }
+                    this.favorites = favorites;
                 }
             }
         })
