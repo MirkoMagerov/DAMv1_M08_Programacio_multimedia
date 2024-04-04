@@ -10,16 +10,20 @@
 <body>
     <div id="app">
         <p class="search-character">Get Dragon Ball Character</p>
-        <p v-if="searchResult === false" class="no-result">No se encontraron resultados</p>
-        <p v-if="searchResult === null" class="waiting-search">Realiza una búsqueda</p>
+        <p v-if="searchResult === false" class="no-result">Didn't find any character with that name</p>
+        <p v-if="searchResult === null" class="waiting-search">Search a DBZ character below</p>
         
         <form v-on:submit.prevent="buscarDragonBallCharacter">
             <input class="input-name-search" type="text" v-model="search">
-            <input class="input-search-button" value="Buscar" type="submit"></input>
+            <input class="input-search-button" value="Search" type="submit"></input>
         </form>
-        <button @click="deleteFavs" class="favorite">Delete all favs</button>
-        <button @click="showFavorites" class="favorite">Show favs</button>
 
+        <div class="favorite-div">
+            <button @click="deleteFavs" class="delete-fav">Delete all favs</button>
+            <button @click="showFavorites" class="show-fav">Show favs</button>
+        </div>
+
+        <p v-if="searchResult" class="status-title">Searched character</p>
         <article v-if="searchResult === true" class="character-article">
             <p class="char-info" v-if="dbChar.name">Character: {{ dbChar.name }}</p>
             <p class="char-info" v-if="dbChar.ki">Ki: {{ dbChar.ki }}</p>
@@ -28,13 +32,19 @@
             <p class="char-info" v-if="dbChar.race">Race: {{ dbChar.race }}</p>
             <img v-if="dbChar.image" v-bind:src="dbChar.image" alt="Character Image">
         </article>
-        <button @click="addToFavorite" class="favorite" v-if="dbChar.name">Add to favorites</button>
+        <button @click="addToFavorite" class="add-fav" v-if="dbChar.name">Add to favorites</button>
 
         <div class="favorites-div" v-if="favorites.length > 0">
-            <p class="favorites-title">Favorites</p>
+            <p class="status-title">Favorites</p>
             <div v-for="favorite in favorites" class="favorite-div">
-                <p class="favorite-name">{{ favorite.name }}</p>
-                <img v-if="favorite.image" v-bind:src="favorite.image" alt="Character Image">
+                <article class="character-article">
+                    <p class="char-info">Character: {{ favorite.name }}</p>
+                    <p class="char-info">Ki: {{ favorite.ki }}</p>
+                    <p class="char-info">Gender: {{ favorite.gender }}</p>
+                    <p class="char-info">Affiliation: {{ favorite.affiliation }}</p>
+                    <p class="char-info">Race: {{ favorite.race }}</p>
+                    <img v-bind:src="favorite.image" alt="Character Image">
+                </article>
             </div>
         </div>
     </div>
@@ -53,12 +63,17 @@
                     fetch(`https://dragonball-api.com/api/characters?name=${this.search}`)
                         .then(response => response.json())
                         .then(data => {
-                            this.dbChar = data[0];
-                            this.searchResult = this.dbChar !== undefined && this.dbChar !== null;
+                            if (data.length > 0) {
+                                this.dbChar = data[0];
+                                this.searchResult = true;
+                            } else {
+                                this.searchResult = false;
+                            }
                         })
 
                         .catch(error => {
                             console.error('Error:', error);
+                            this.searchResult = null;
                         });
                 },
                 addToFavorite() {
@@ -68,9 +83,6 @@
                 deleteFavs() {
                     localStorage.clear();
                     console.log('Favoritos eliminados');
-                },
-                mounted() {
-                    this.loadFavoritesFromLocalStorage();
                 },
                 showFavorites() {
                     const favorites = [];

@@ -5,8 +5,8 @@
 }
 
 body {
-    width: 100vw;
-    height: 100vh;
+    min-width: 100vw;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,10 +20,15 @@ body {
 }
 
 .search-character {
-    margin-bottom: 20px;
-    font-size: 2.5em;
+    font-size: 2em;
     font-weight: bold;
-    font-style: italic;
+    margin-top: 20px;
+    text-align: center;
+    border: 3px solid black;
+    border-radius: 10px;
+    background-color: rgb(85, 78, 78);
+    color: rgb(224, 214, 214);
+    padding: 15px;
 }
 
 .character-article {
@@ -39,21 +44,28 @@ form {
 
 .input-name-search {
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 1.2em;
     margin-right: 10px;
 }
 
 .input-search-button {
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 1.2em;
+    border: 3px solid green;
 }
 
 .input-search-button:hover {
+    background-color: rgb(177, 214, 177);
     cursor: pointer;
-    background-color: rgb(85, 78, 78);
-    color: rgb(224, 214, 214);
+}
+
+.favorite-div {
+    gap: 15px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
 }
 
 img {
@@ -71,6 +83,7 @@ img {
     font-size: 1.5em;
     font-weight: bold;
     color: red;
+    margin-top: 15px;
 }
 
 .waiting-search {
@@ -78,26 +91,49 @@ img {
     font-weight: bold;
     color: green;
     font-style: italic;
+    margin-top: 15px;
 }
 
-.favorite {
+button {
     padding: 10px;
     margin-top: 10px;
-    border-radius: 7px;
-    font-size: 1.1em;
+    border-radius: 8px;
+    font-size: 1.2em;
     cursor:pointer;
 }
 
-.favorite:last-of-type {
-    color:green;
+.delete-fav {
+    border: 3px solid red;
 }
 
-.favorite:first-of-type {
-    color:red;
+.show-fav {
+    border: 3px solid rgb(0, 162, 255);
 }
 
-.favorites-title {
+.delete-fav:hover {
+    background-color: rgb(221, 175, 175);
+}
+
+.show-fav:hover {
+    background-color: rgb(192, 230, 235);
+}
+
+.status-title {
     font-size: 2em;
     font-weight: bold;
     margin-top: 15px;
+    text-align: center;
+    border: 3px solid black;
+    border-radius: 10px;
+    background-color: rgb(85, 78, 78);
+    color: rgb(224, 214, 214);
+    padding: 10px;
+}
+
+.add-fav {
+    border: 2px solid orange;
+}
+
+.add-fav:hover {
+    background-color: rgb(247, 231, 211);
 }
