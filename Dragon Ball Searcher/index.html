@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dragon Ball Seacher</title>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="./script.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,7 +21,6 @@
 
         <div class="favorite-div">
             <button @click="deleteFavs" class="delete-fav">Delete all favs</button>
-            <button @click="showFavorites" class="show-fav">Show favs</button>
         </div>
 
         <p v-if="searchResult" class="status-title">Searched character</p>
@@ -34,9 +34,9 @@
         </article>
         <button @click="addToFavorite" class="add-fav" v-if="dbChar.name">Add to favorites</button>
 
-        <div class="favorites-div" v-if="favorites.length > 0">
+        <div class="favorites-div" v-if="favs.size > 0">
             <p class="status-title">Favorites</p>
-            <div v-for="favorite in favorites" class="favorite-div">
+            <div v-for="favorite in favs.values()" class="favorite-div">
                 <article class="character-article">
                     <p class="char-info">Character: {{ favorite.name }}</p>
                     <p class="char-info">Ki: {{ favorite.ki }}</p>
@@ -48,55 +48,5 @@
             </div>
         </div>
     </div>
-    <script>
-        const app = Vue.createApp({
-            data() {
-                return {
-                    search: "",
-                    dbChar: "",
-                    searchResult: null,
-                    favorites: []
-                }
-            },
-            methods: {
-                buscarDragonBallCharacter() {
-                    fetch(`https://dragonball-api.com/api/characters?name=${this.search}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.length > 0) {
-                                this.dbChar = data[0];
-                                this.searchResult = true;
-                            } else {
-                                this.searchResult = false;
-                            }
-                        })
-
-                        .catch(error => {
-                            console.error('Error:', error);
-                            this.searchResult = null;
-                        });
-                },
-                addToFavorite() {
-                    localStorage.setItem(this.dbChar.name, JSON.stringify(this.dbChar));
-                    console.log('Agregado a favoritos');
-                },
-                deleteFavs() {
-                    localStorage.clear();
-                    console.log('Favoritos eliminados');
-                },
-                showFavorites() {
-                    const favorites = [];
-
-                    for (let i = 0; i < localStorage.length; i++) {
-                        const key = localStorage.key(i);
-                        const favorite = JSON.parse(localStorage.getItem(key));
-                        favorites.push(favorite);
-                    }
-                    this.favorites = favorites;
-                }
-            }
-        })
-        app.mount('#app');
-    </script>
 </body>
 </html>
