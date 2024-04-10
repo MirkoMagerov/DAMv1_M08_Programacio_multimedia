@@ -6,6 +6,7 @@
     <title>Dragon Ball Seacher</title>
     <script src="https://unpkg.com/vue@3"></script>
     <script src="./script.js"></script>
+    <script src="./components/componente.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -23,15 +24,7 @@
             <button @click="deleteFavs" class="delete-fav">Delete all favs</button>
         </div>
 
-        <p v-if="searchResult" class="status-title">Searched character</p>
-        <article v-if="searchResult === true" class="character-article">
-            <p class="char-info" v-if="dbChar.name">Character: {{ dbChar.name }}</p>
-            <p class="char-info" v-if="dbChar.ki">Ki: {{ dbChar.ki }}</p>
-            <p class="char-info" v-if="dbChar.gender">Gender: {{ dbChar.gender }}</p>
-            <p class="char-info" v-if="dbChar.affiliation">Affiliation: {{ dbChar.affiliation }}</p>
-            <p class="char-info" v-if="dbChar.race">Race: {{ dbChar.race }}</p>
-            <img v-if="dbChar.image" v-bind:src="dbChar.image" alt="Character Image">
-        </article>
+        <dragon-ball-character v-if="dbChar" :dbChar="dbChar"></dragon-ball-character>
         <button @click="addToFavorite" class="add-fav" v-if="dbChar.name">Add to favorites</button>
 
         <div class="favorites-div" v-if="favs.size > 0">
@@ -48,5 +41,6 @@
             </div>
         </div>
     </div>
+    <script> app.mount('#app'); </script>
 </body>
 </html>
